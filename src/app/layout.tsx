@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   title: "Campusphere",
   description: "Campus events at your fingertips",
 };
+<head>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#FFD83D" />
+</head>
+
 
 export default function RootLayout({
   children,

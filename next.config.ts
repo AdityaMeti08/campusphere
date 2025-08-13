@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
@@ -8,7 +9,7 @@ const withPWA = require('next-pwa')({
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   eslint: {
-    ignoreDuringBuilds: true, // ✅ Skip linting errors during build
+    ignoreDuringBuilds: true,
   },
 };
 
