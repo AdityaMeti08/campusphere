@@ -1,8 +1,7 @@
-export default function HomeLayout({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
-  return (
-    <>
-      {children}
-      {modal}
-    </>
-  );
+export default function HomeLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
 }
