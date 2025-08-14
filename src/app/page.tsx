@@ -236,7 +236,7 @@ export default function Landing() {
         </p>
       </section>
 
-      Flip Card Auth
+      
       <section className="px-5">
         <div className="mt-6 flex justify-center">
           <div className="perspective">
