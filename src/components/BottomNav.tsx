@@ -1,77 +1,121 @@
-import Link from 'next/link';
+'use client';
+
+import React from 'react';
+import { Home, Search, Ticket, Bell, User } from 'lucide-react';
+
+type TabKey = 'home' | 'search' | 'calendar' | 'notifications' | 'profile';
+
 type Props = {
-  active?: 'home' | 'search' | 'calendar' | 'notifications' | 'profile';
+  active?: TabKey;
+  onTabChange?: (key: TabKey) => void;
   notificationCount?: number;
   buzz?: boolean;
-  onProfileClick?: () => void; // NEW
+  onProfileClick?: () => void;
 };
 
-export default function BottomNav({ active = 'home', notificationCount = 0, buzz = false, onProfileClick }: Props) {
-  const items = [
-    { key: 'home', label: 'Home', href: '/', type: 'link' },
-    { key: 'search', label: 'Search', href: '/search', type: 'link' },
-    { key: 'calendar', label: 'Calendar', href: '/calendar', type: 'link' },
-    { key: 'notifications', label: 'Alerts', href: '/notifications', type: 'link' },
-    { key: 'profile', label: 'Profile', type: 'button' }, // Will use callback
+const OCHRE = '#E7C339';
+const BROWN = '#211C11';
+
+export default function BottomNav({
+  active = 'home',
+  onTabChange,
+  notificationCount = 0,
+  buzz = false,
+  onProfileClick,
+}: Props) {
+  const groupedTabs: Array<{
+    key: TabKey;
+    label: string;
+    icon: React.ReactElement;
+    button?: boolean;
+  }> = [
+    
+    { key: 'calendar', label: 'Calendar', icon: <Ticket size={22} color={OCHRE} /> },
+    { key: 'profile', label: 'Profile', icon: <User size={22} color={OCHRE} />, button: true },
   ];
 
   return (
-    <nav className="fixed bottom-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-      <div className="pointer-events-auto w-full max-w-md rounded-3xl bg-[#FFE169] bg-gradient-to-br from-[#FFE169] to-[#F9C74F] ring-1 ring-[#5C3B00]/10 shadow-lg px-3 py-2">
-        <ul className="grid grid-cols-5 items-center">
-          {items.map((item) => {
-            const isActive = active === item.key;
-            const isBell = item.key === 'notifications';
+    <nav className="fixed bottom-4 left-0 right-0 z-50 flex justify-center pointer-events-none select-none">
+      <div className="pointer-events-auto w-full max-w-md flex items-center gap-5 px-2 py-2">
 
-            const baseClasses = `relative flex flex-col items-center gap-1`;
+        {/* Home button */}
+        {active === 'home' ? (
+          <button
+            type="button"
+            aria-label="Home"
+            onClick={() => onTabChange?.('home')}
+            className="flex items-center gap-1 px-6 py-2 rounded-full bg-[#E7C339] border-2 border-[#E7C339] shadow font-bold text-[#211C11] text-[15px]"
+          >
+            <Home size={22} color={BROWN} />
+            <span>Home</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            aria-label="Home"
+            onClick={() => onTabChange?.('home')}
+            className="flex items-center justify-center w-11 h-11 rounded-full border-2 border-[#E7C339] bg-[#FFF6C2]"
+          >
+            <Home size={22} color={OCHRE} />
+          </button>
+        )}
 
-            if (item.type === 'link') {
-              return (
-                <li key={item.key} className="flex justify-center">
-                  <Link href={item.href!} className={baseClasses}>
-                    <span
-                      className={`relative flex h-10 w-10 items-center justify-center rounded-2xl ${
-                        isActive ? 'bg-gradient-to-b from-[#FFD83D] to-[#E8B100]' : 'bg-white/30'
-                      } ${isBell && buzz ? 'animate-[bell-shake_0.7s_ease-in-out]' : ''}`}
-                    >
-                      {isBell && notificationCount > 0 && (
-                        <span className="absolute top-1 right-1 min-w-[1.2rem] h-5 px-1 rounded-full bg-red-500 text-white text-[0.7rem] font-bold flex items-center justify-center">
-                          {notificationCount}
-                        </span>
-                      )}
-                    </span>
-                    <span className="text-[11px] font-medium text-[#5C3B00]">{item.label}</span>
-                  </Link>
-                </li>
+        {/* Right-side grouped icons */}
+        <div className="flex flex-1 items-center justify-around rounded-full bg-[#FFF6C2] border-2 border-[#E7C339] shadow-[0_8px_24px_rgba(211,195,57,0.1)] h-[52px]">
+          {groupedTabs.map((tab) => {
+            const isActive = active === tab.key;
+            const Icon = tab.icon;
+
+            if (tab.button) {
+              // Profile
+              return isActive ? (
+                <button
+                  key={tab.key}
+                  type="button"
+                  aria-label="Profile"
+                  onClick={onProfileClick}
+                  className="flex items-center gap-2 px-6 py-2 rounded-full bg-[#E7C339] border-2 border-[#E7C339] shadow font-bold text-[#211C11] text-[15px]"
+                >
+                  {Icon}
+                  <span>{tab.label}</span>
+                </button>
+              ) : (
+                <button
+                  key={tab.key}
+                  type="button"
+                  aria-label="Profile"
+                  onClick={onProfileClick}
+                  className="flex items-center justify-center w-11 h-11 rounded-full border-2 border-[#E7C339] bg-transparent"
+                >
+                  {Icon}
+                </button>
               );
             }
-
-            if (item.type === 'button') {
-              return (
-                <li key={item.key} className="flex justify-center">
-                  <button
-                    type="button"
-                    onClick={onProfileClick}
-                    className={baseClasses}
-                  >
-                    <span
-                      className={`relative flex h-10 w-10 items-center justify-center rounded-2xl ${
-                        isActive ? 'bg-gradient-to-b from-[#FFD83D] to-[#E8B100]' : 'bg-white/30'
-                      }`}
-                    >
-                      {/* Icon manually here to avoid Link */}
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                        <circle cx="12" cy="7" r="4" />
-                        <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
-                      </svg>
-                    </span>
-                    <span className="text-[11px] font-medium text-[#5C3B00]">{item.label}</span>
-                  </button>
-                </li>
-              );
-            }
+            // Search / Calendar
+            return isActive ? (
+              <button
+                key={tab.key}
+                type="button"
+                aria-label={tab.label}
+                onClick={() => onTabChange?.(tab.key)}
+                className="flex items-center gap-2 px-6 py-2 rounded-full bg-[#E7C339] border-2 border-[#E7C339] shadow font-bold text-[#211C11] text-[15px]"
+              >
+                {Icon}
+                <span>{tab.label}</span>
+              </button>
+            ) : (
+              <button
+                key={tab.key}
+                type="button"
+                aria-label={tab.label}
+                onClick={() => onTabChange?.(tab.key)}
+                className="flex items-center justify-center w-11 h-11 rounded-full border-2 border-[#E7C339] bg-transparent"
+              >
+                {Icon}
+              </button>
+            );
           })}
-        </ul>
+        </div>
       </div>
     </nav>
   );
