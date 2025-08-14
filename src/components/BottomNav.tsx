@@ -30,7 +30,7 @@ export default function BottomNav({
     button?: boolean;
   }> = [
     
-    { key: 'calendar', label: 'Calendar', icon: <Ticket size={22} color={OCHRE} /> },
+    { key: 'calendar', label: 'Events', icon: <Ticket size={22} color={OCHRE} /> },
     { key: 'profile', label: 'Profile', icon: <User size={22} color={OCHRE} />, button: true },
   ];
 

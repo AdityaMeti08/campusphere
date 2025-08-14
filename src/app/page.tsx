@@ -1,4 +1,9 @@
 'use client';
+// app/page.tsx
+import { redirect } from 'next/navigation';
+
+
+
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -231,7 +236,7 @@ export default function Landing() {
         </p>
       </section>
 
-      {/* Flip Card Auth */}
+      Flip Card Auth
       <section className="px-5">
         <div className="mt-6 flex justify-center">
           <div className="perspective">
@@ -467,15 +472,7 @@ export default function Landing() {
 
       {/* Create Event Modal */}
 {/* Floating Create Event button - always visible */}
-<div className="fixed bottom-5 right-5 z-40">
-  <button
-    type="button"
-    onClick={() => setIsCreateEventOpen(true)}
-    className="px-5 py-3 rounded-full bg-[#FFD83D] hover:bg-[#e6c532] text-black font-semibold shadow-lg transition"
-  >
-    + Create Event
-  </button>
-</div>
+
 
 {/* Create Event Modal */}
 {isCreateEventOpen && (
@@ -528,21 +525,7 @@ export default function Landing() {
         className="w-full border border-black/20 rounded-full px-4 py-2 text-sm text-black"
       />
 
-      <div className="flex justify-end gap-3">
-        <button
-          type="button"
-          onClick={() => setIsCreateEventOpen(false)}
-          className="px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="px-4 py-2 rounded-full bg-[#FFD83D] hover:bg-[#e6c532] font-semibold shadow"
-        >
-          Save
-        </button>
-      </div>
+      
     </form>
   </div>
 )}
